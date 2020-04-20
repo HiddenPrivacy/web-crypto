@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>web-crypto Demo</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  </head>
+  <body>
+    <script src="web-crypto.js"></script>
+    <script>
+      console.log(webcrypto);
+
+      function clock(id) {
+        this.el =  document.getElementById(id);
+        this.startTime = new Date();
+        this.timer = setInterval(this.tick.bind(this), 1);
+      }
+      
+      clock.prototype.tick = function(){
+        this.el.textContent = (new Date()).valueOf() - this.startTime.valueOf() + " ms";
+      }
+
+      clock.prototype.stop = function(){
+        clearInterval(this.timer);
+      }
+
+      
+      function generateRSA() {
+        document.getElementById('privateKey').value = "";
+        document.getElementById('publicKey').value = "";
+        var time = new clock('time');
+
+        webcrypto.generateRSAKeyPair()
+        .then(function(pair) {
+          time.stop();
+          document.getElementById('privateKey').value = pair.privateKey;
+          document.getElementById('publicKey').value = pair.publicKey;
+        })
+        .catch(function(er){
+          console.log(er)
+          time.stop()
+        });
+        
+      }
+    </script>
+    
+    
+    <div class="container">
+
+      <h1>RSA</h1>
+          
+      <p><button class="btn btn-primary" onclick="generateRSA()">Generate RSA Key Pair</button></p>
+
+      <p>Time: <strong id="time">-</strong></p>
+
+      <div class="form-group">
+        <label>Private Key</label>
+        <textarea class="form-control text-monospace" id="privateKey" rows="5" readonly></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Public Key</label>
+        <textarea class="form-control text-monospace" id="publicKey" rows="5" readonly></textarea>
+      </div>
+    </div>
+
+  </body>
+</html>
