@@ -5,6 +5,7 @@
   "main": "lib/web-crypto.js",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
+    "deploy": "npm run build",
     "watch": "webpack-dev-server --config webpack.dev.js"
   },
   "author": "Wiki",
