@@ -10,7 +10,7 @@ export default async function(key, text) {
     let buffer = await subtle.encrypt(
       {
         name: "RSA-OAEP",
-        hash: { name: "SHA-256" } // has was added because MS Edge
+        hash: { name: "SHA-512" } // has was added because MS Edge
       },
       key,
       textEncode(text)
