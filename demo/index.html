@@ -45,6 +45,56 @@
         });
         
       }
+
+      function encryptRSA() {
+        var key = document.getElementById('publicKey').value;
+        var text = document.getElementById('text').value;
+        var time = new clock('time-encrypt');
+
+        document.getElementById('cypher').value = "";
+
+        webcrypto.importRSAPublicKey(key)
+          .then(function(key){
+            webcrypto.encryptRSA(key, text)
+              .then(function(cypher) {
+                time.stop();
+                document.getElementById('cypher').value = cypher;
+              })
+              .catch(function(er){
+                console.log(er)
+                time.stop()
+              });
+          })
+          .catch(function(er){
+            console.log(er)
+            time.stop()
+          });          
+      }
+
+      function decryptRSA() {
+        var key = document.getElementById('privateKey').value;
+        var cypher = document.getElementById('cypher').value;
+        var time = new clock('time-decrypt');
+
+        document.getElementById('text2').value = "";
+
+        webcrypto.importRSAPrivateKey(key)
+          .then(function(key){
+            webcrypto.decryptRSA(key, cypher)
+              .then(function(text) {
+                time.stop();
+                document.getElementById('text2').value = text;
+              })
+              .catch(function(er){
+                console.log(er)
+                time.stop()
+              });
+          })
+          .catch(function(er){
+            console.log(er)
+            time.stop()
+          });          
+      }
     </script>
     
     
@@ -58,13 +108,34 @@
 
       <div class="form-group">
         <label>Private Key</label>
-        <textarea class="form-control text-monospace" id="privateKey" rows="5" readonly></textarea>
+        <textarea class="form-control text-monospace" id="privateKey" rows="5" onfocus="this.select()"></textarea>
       </div>
 
       <div class="form-group">
         <label>Public Key</label>
-        <textarea class="form-control text-monospace" id="publicKey" rows="5" readonly></textarea>
+        <textarea class="form-control text-monospace" id="publicKey" rows="5" onfocus="this.select()"></textarea>
       </div>
+
+      <div class="form-group">
+        <label>Text</label>
+        <input class="form-control" id="text" type="text">
+      </div>
+
+      <p><button class="btn btn-primary" onclick="encryptRSA()">Encrypt</button></p>
+      <p>Time: <strong id="time-encrypt">-</strong></p>
+      <div class="form-group">
+        <label>Cypher (base64)</label>
+        <textarea class="form-control text-monospace" id="cypher" rows="5" onfocus="this.select()"></textarea>
+      </div>
+
+      <p><button class="btn btn-primary" onclick="decryptRSA()">Decrypt</button></p>
+      <p>Time: <strong id="time-decrypt">-</strong></p>
+      <div class="form-group">
+        <label>Text</label>
+        <input class="form-control" id="text2" type="text">
+      </div>
+
+      
     </div>
 
   </body>

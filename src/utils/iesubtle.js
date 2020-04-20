@@ -22,50 +22,41 @@ export default {
         resolve(evt.target.result);
       };
     });
-  }
-}
-  
-  /*,
-  importKey : function(format, keyData, algorithm, extractable, keyUsages) {
-      var deferred = $q.defer();
-
+  },
+  importKey: function(format, keyData, algorithm, extractable, keyUsages) {
+    return new Promise(function(resolve, reject) {
       var op = window.msCrypto.subtle.importKey(format, keyData, algorithm, extractable, keyUsages);
       op.onerror = function (evt) {
-          deferred.reject(evt.toString());
+        reject(evt.toString());
       };
 
       op.oncomplete = function (evt) {
-          deferred.resolve(evt.target.result);
+        resolve(evt.target.result);
       };
-
-      return deferred.promise;
+    });
   },
-  encrypt : function(algorithm, key, buffer) {
-      var deferred = $q.defer();
-
+  encrypt: function(algorithm, key, buffer) {
+    return new Promise(function(resolve, reject) {
       var op = window.msCrypto.subtle.encrypt(algorithm, key, buffer);
       op.onerror = function (evt) {
-          deferred.reject(evt.toString());
+        reject(evt.toString());
       };
 
       op.oncomplete = function (evt) {
-          deferred.resolve(evt.target.result);
+        resolve(evt.target.result);
       };
-
-      return deferred.promise;
+    });
   },
-  decrypt : function(algorithm, key, buffer) {
-      var deferred = $q.defer();
-
+  decrypt: function(algorithm, key, buffer) {
+    return new Promise(function(resolve, reject) {
       var op = window.msCrypto.subtle.decrypt(algorithm, key, buffer);
       op.onerror = function (evt) {
-          deferred.reject(evt.toString());
+        reject(evt.toString());
       };
 
       op.oncomplete = function (evt) {
-          deferred.resolve(evt.target.result);
+        resolve(evt.target.result);
       };
-
-      return deferred.promise;
+    });
   }
-};*/
+}
